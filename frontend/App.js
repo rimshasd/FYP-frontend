@@ -10,7 +10,7 @@ import GenerateAlert from "./screens/GenerateAlert";
 import OpenMobCamera from "./screens/OpenMobCamera";
 import RecordedVideo from "./screens/RecordedVideo";
 import VideoPlayer from "./screens/VideoPlayer";
-
+import MedicationReminder from "./screens/Reminders";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,14 +74,21 @@ export default function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen 
-        name="VideoPlayer" 
-        component={VideoPlayer} 
-        options={{
-          headerShown: false,
-        }}
+        <Stack.Screen
+          name="VideoPlayer"
+          component={VideoPlayer}
+          options={{
+            headerShown: false,
+          }}
         />
 
+        <Stack.Screen
+          name="MedicationReminder"
+          component={MedicationReminder}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

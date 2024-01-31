@@ -28,7 +28,7 @@ const Home = ({ route }) => {
   };
 
   const handleMedicationsPress = () => {
-    // Handle Manage Medications button press
+    navigation.navigate("MedicationReminder");
   };
 
   const handleMealTrackingPress = () => {
