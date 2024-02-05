@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Text, View } from "react-native";
-import { RNCamera } from "react-native-camera";
+import { Text, View, TouchableOpacity } from "react-native";
+import { Camera } from "expo-camera";
+import { useNavigation } from "@react-navigation/native";
 
 export default function OpenMobCamera() {
   const [hasPermission, setHasPermission] = useState(null);
-  const [cameraType, setCameraType] = useState(RNCamera.Constants.Type.back);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [ratio, setRatio] = useState("3:2"); // default is 4:3
   const cameraRef = useRef(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
-      const { status: cameraStatus } = await RNCamera.requestPermissionsAsync();
-      setHasPermission(cameraStatus === "granted");
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
     })();
   }, []);
 
@@ -24,6 +26,10 @@ export default function OpenMobCamera() {
     })();
   }, [cameraRef]);
 
+  const stopCamera = () => {
+    navigation.navigate("Home"); // Navigate back to the Home screen
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {hasPermission === null ? (
@@ -31,12 +37,12 @@ export default function OpenMobCamera() {
       ) : hasPermission === false ? (
         <Text>No access to camera</Text>
       ) : (
-        <RNCamera
-          ref={cameraRef}
-          style={{ flex: 1 }}
-          type={cameraType}
-          ratio={ratio}
-        />
+        <>
+          <Camera ref={cameraRef} style={{ flex: 1 }} type={cameraType} ratio={ratio} />
+          <TouchableOpacity style={{ position: "absolute", top: 20, right: 20 }} onPress={stopCamera}>
+            <Text style={{ color: "white", fontSize: 18 }}>Stop Mobile Camera</Text>
+          </TouchableOpacity>
+        </>
       )}
     </View>
   );
